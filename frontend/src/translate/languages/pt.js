@@ -298,12 +298,16 @@ const messages = {
       },
       queueModal: {
         title: {
-          add: "Adicionar fila",
-          edit: "Editar fila",
+          add: "Adicionar Fila",
+          edit: "Editar Fila",
         },
-		confirmationModal: {
-		  "deleteTitle": "Excluir",
-		},
+	toasts: {
+          deleted: "Registro excluído",
+        },      
+        confirmationModal: {
+          deleteTitle: "Excluir",
+          deleteMessage: "Esta ação não pode ser revertida.",
+        },
         form: {
           name: "Nome",
           color: "Cor",
