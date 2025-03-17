@@ -2138,8 +2138,7 @@ const handleMessage = async (
           !isNil(currentSchedule) &&
           (!currentSchedule || currentSchedule.inActivity === false)
         ) {
-          const body = `\u200e ${whatsapp.outOfHoursMessage},
-            contact`;
+          const body = `\u200e ${whatsapp.outOfHoursMessage}`;
 
           console.log('body9341023', body)
           const debouncedSentMessage = debounce(
