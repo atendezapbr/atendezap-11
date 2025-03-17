@@ -29,7 +29,7 @@ class Contact extends Model<Contact> {
   @Column
   name: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Unique
   @Column
   number: string;
