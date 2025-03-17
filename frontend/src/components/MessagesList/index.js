@@ -70,7 +70,14 @@ const useStyles = makeStyles((theme) => ({
     left: "50%",
     marginTop: 12,
   },
-
+  relationContainer: {
+    marginTop: -10,
+    paddingTop: 5, 
+    fontSize: "12px", 
+    color: "#666", 
+    display: "block", 
+    textAlign: "left",
+  },
   messageLeft: {
     marginRight: 20,
     marginTop: 2,
@@ -477,25 +484,24 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
       return <LocationPreview image={imageLocation} link={linkLocation} description={descriptionLocation} />
     } else
   
-      if (message.mediaType === "contactMessage") {
-        let array = message.body.split("\n");
-        let obj = [];
-        let contact = "";
-        for (let index = 0; index < array.length; index++) {
-          const v = array[index];
-          let values = v.split(":");
-          for (let ind = 0; ind < values.length; ind++) {
-            if (values[ind].indexOf("+") !== -1) {
-              obj.push({ number: values[ind] });
-            }
-            if (values[ind].indexOf("FN") !== -1) {
-              contact = values[ind + 1];
-            }
+    if (message.mediaType === "contactMessage") {
+      let array = message.body.split("\n");
+      let obj = [];
+      let contact = "";
+      for (let index = 0; index < array.length; index++) {
+        const v = array[index];
+        let values = v.split(":");
+        for (let ind = 0; ind < values.length; ind++) {
+          if (values[ind].indexOf("+") !== -1) {
+            obj.push({ number: values[ind] });
+          }
+          if (values[ind].indexOf("FN") !== -1) {
+            contact = values[ind + 1];
           }
         }
-        // console.log(message)
-        return
-      } else
+      }
+      return <VCardPreview contact={contact} numbers={obj[0].number} />
+    } else
   
         if (message.mediaType === "image") {
           return <ModalImageCors imageUrl={message.mediaUrl} />;
@@ -824,28 +830,42 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
                     </MarkdownWrapper>
                   )}
                   {message.quotedMsg && message.mediaType === "reactionMessage" && message.body && (
-                    <>
-                      <span style={{ marginLeft: "0px", display: 'flex', alignItems: 'center' }}>
-                        <MarkdownWrapper>
-                          {"_*" + (message.fromMe ? 'Você' : (message?.contact?.name ?? 'Contato')) + "*_ reagiu... "}
-                        </MarkdownWrapper>
-                        <Badge 
-                          className={classes.badge}
-                          overlap="circular"
-                          anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                          }}
-                          badgeContent={
-                            <span style={{ fontSize: "1.2em", marginTop: "0", marginLeft: "5px" }}>
-                              {message.body}
-                            </span>
-                          }
-                        >
-                        </Badge>
-                      </span>
-                    </>
-                  )}
+							  <>
+								<span style={{ marginLeft: "0px", display: 'flex', alignItems: 'center' }}>
+								  <MarkdownWrapper>
+									{"_*" + (message.fromMe ? 'Você' : (message?.contact?.name ?? 'Contato')) + "*_ reagiu... "}
+								  </MarkdownWrapper>
+								  <Badge 
+									className={classes.badge}
+									overlap="circular"
+									anchorOrigin={{
+									  vertical: 'bottom',
+									  horizontal: 'right',
+									}}
+									badgeContent={
+									  <span style={{ fontSize: "1.2em", marginTop: "0", marginLeft: "5px" }}>
+										{message.body}
+									  </span>
+									}
+								  >
+								  </Badge>
+								</span>
+
+								{/* Adicionando relação abaixo da mensagem */}
+								{message.relation && (
+								  <div style={{
+									marginTop: "-5px", 
+									paddingTop: "2px", 
+									fontSize: "12px", 
+									color: "#666", 
+									display: "block", 
+									textAlign: "left"
+								  }}>
+									{message.relation}
+								  </div>
+								)}
+							  </>
+							)}
 
                    <span className={classes.timestamp}>
                   {message.isEdited ? "Editada " + format(parseISO(message.createdAt), "HH:mm") : format(parseISO(message.createdAt), "HH:mm")}
@@ -909,17 +929,43 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
                   {message.mediaType !== "reactionMessage" && message.mediaType !== "locationMessage" && (
                     <MarkdownWrapper>{message.body}</MarkdownWrapper>
                   )}
-                  {message.quotedMsg && message.mediaType === "reactionMessage" && (
-                    <>
-                      <span style={{ marginLeft: "0px" }}>
-                        <MarkdownWrapper>
-                          {"Você reagiu... " + message.body}
-                        </MarkdownWrapper>
-                      </span>
-                    </>
-                  )}
-                
-                
+					{message.quotedMsg && message.mediaType === "reactionMessage" && message.body && (
+					  <>
+						<span style={{ marginLeft: "0px", display: 'flex', alignItems: 'center' }}>
+						  <MarkdownWrapper>
+							{"_*" + (message.fromMe ? 'Você' : (message?.contact?.name ?? 'Contato')) + "*_ reagiu... "}
+						  </MarkdownWrapper>
+						  <Badge 
+							className={classes.badge}
+							overlap="circular"
+							anchorOrigin={{
+							  vertical: 'bottom',
+							  horizontal: 'right',
+							}}
+							badgeContent={
+							  <span style={{ fontSize: "1.2em", marginTop: "0", marginLeft: "5px" }}>
+								{message.body}
+							  </span>
+							}
+						  >
+						  </Badge>
+						</span>
+
+						{/* Exibição da relação abaixo */}
+						{message.relation && (
+						  <div style={{
+							marginTop: "3px",
+							fontSize: "12px",
+							color: "#666",
+							textAlign: "left",
+							display: "block"
+						  }}>
+							{message.relation}
+						  </div>
+						)}
+					  </>
+					)}
+                          
                   <span className={classes.timestamp}>
                   {message.isEdited ? "Editada " + format(parseISO(message.createdAt), "HH:mm") : format(parseISO(message.createdAt), "HH:mm")}
                   {renderMessageAck(message)}
