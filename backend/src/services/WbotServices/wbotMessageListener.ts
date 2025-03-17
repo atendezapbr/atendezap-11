@@ -2196,7 +2196,7 @@ const handleMessage = async (
             const endTimeB = moment(schedule.endTimeB, "HH:mm");
 
             if (now.isBefore(startTimeA) || now.isAfter(endTimeA) && (now.isBefore(startTimeB) || now.isAfter(endTimeB))) {
-              const body = `${queue.outOfHoursMessage}, contact`;
+              const body = `${queue.outOfHoursMessage}`;
               console.log('body:23801', body)
               const debouncedSentMessage = debounce(
                 async () => {
