@@ -69,7 +69,7 @@ Apenas Suporte Básico
 
 Biblioteca Baileys Atualizada:</br>
 
-V 6.7.9
+V 6.7.16
 
 Instalador atualizado, versao NodeJS 20:
 
