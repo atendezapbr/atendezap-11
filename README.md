@@ -14,6 +14,8 @@ BASIC: 4 vCores, 6 GB de RAM e 100 GB de SSD NVMe $4.99 USD Mensal com taxa de s
 
 STANDARD: 6 vCores, 12 GB de RAM e 200 GB de SSD NVMe $9.99 USD Mensal com taxa de setup de $5.99.
 
+Utilize o cupom WHATICKET e obtenha 25% de desconto no primeiro pagamento.
+
 ```
 https://control.peramix.com/?affid=14
 ```
