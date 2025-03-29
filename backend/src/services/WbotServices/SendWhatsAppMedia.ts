@@ -140,7 +140,7 @@ const SendWhatsAppMedia = async ({
     if (typeMessage === "video") {
       options = {
         video: fs.readFileSync(pathMedia),
-        caption: body,
+        caption: bodyMessage,
         fileName: media.originalname.replace('/', '-')
       };
     } else if (typeMessage === "audio") {
@@ -163,20 +163,20 @@ const SendWhatsAppMedia = async ({
     } else if (typeMessage === "document" || mimeType === "application/pdf") {
       options = {
         document: fs.readFileSync(pathMedia),
-        caption: body,
+        caption: bodyMessage,
         fileName: media.originalname.replace('/', '-'),
         mimetype: media.mimetype
       };
     } else if (typeMessage === "image") {
       options = {
         image: fs.readFileSync(pathMedia),
-        caption: body
+        caption: bodyMessage
       };
     } else {
       // Caso o tipo de mídia não seja reconhecido, trata como documento
       options = {
         document: fs.readFileSync(pathMedia),
-        caption: body,
+        caption: bodyMessage,
         fileName: media.originalname.replace('/', '-'),
         mimetype: media.mimetype
       };

@@ -30,7 +30,7 @@ const VersionLog = () => {
     const fetchReadme = async () => {
       try {
         const response = await axios.get(
-          'https://api.github.com/repos/plwdesign/attwhaticket/contents/README.md'
+          'https://api.github.com/repos/laucherbr/attwhaticket/contents/README.md'
         );
         const decodedContent = decodeBase64(response.data.content);
         const parsedLog = parseVersionLog(decodedContent);

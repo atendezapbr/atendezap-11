@@ -47,7 +47,7 @@ import { AllInclusive, AttachFile, BlurCircular, Description, DeviceHubOutlined,
 import usePlans from "../hooks/usePlans";
 import Typography from "@material-ui/core/Typography";
 import useVersion from "../hooks/useVersion";
-import LogPlw from "../pages/LogPlw";
+import LogLauncher from "../pages/LogLauncher";
 
 const useStyles = makeStyles((theme) => ({
   ListSubheader: {
@@ -614,8 +614,8 @@ const MainListItems = (props) => {
 			)}
 			{user.super && (
 			<ListItemLink
-              to="/logplw"
-              primary={i18n.t("mainDrawer.listItems.logplw")}
+              to="/LogLauncher"
+              primary={i18n.t("mainDrawer.listItems.LogLauncher")}
               icon={<AutorenewIcon />}
             />
 			)}

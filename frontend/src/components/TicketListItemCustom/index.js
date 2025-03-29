@@ -191,7 +191,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   }
 }));
-  {/*PLW DESIGN INSERIDO O dentro do const handleChangeTab*/}
+  {/*INSERIDO O dentro do const handleChangeTab*/}
   const TicketListItemCustom = ({ ticket }) => {
   const classes = useStyles();
   const history = useHistory();

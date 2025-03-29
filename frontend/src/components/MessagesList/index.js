@@ -22,13 +22,14 @@ import {
   GetApp,
   Reply,
 } from "@material-ui/icons";
+
 import AudioModal from "../AudioModal";
 import MarkdownWrapper from "../MarkdownWrapper";
 import ModalImageCors from "../ModalImageCors";
 import MessageOptionsMenu from "../MessageOptionsMenu";
 import whatsBackground from "../../assets/wa-background.png";
 import LocationPreview from "../LocationPreview";
-import whatsBackgroundDark from "../../assets/wa-background-dark.png"; //DARK MODE PLW DESIGN//
+import whatsBackgroundDark from "../../assets/wa-background-dark.png"; //DARK MODE//
 import VCardPreview from "../VCardPreview";
 import api from "../../services/api";
 import toastError from "../../errors/toastError";
@@ -36,9 +37,6 @@ import { SocketContext } from "../../context/Socket/SocketContext";
 import { ForwardMessageContext } from "../../context/ForwarMessage/ForwardMessageContext";
 import { ReplyMessageContext } from "../../context/ReplyingMessage/ReplyingMessageContext";
 import SelectMessageCheckbox from "./SelectMessageCheckbox";
-
-import { Mutex } from "async-mutex";
-const loadPageMutex = new Mutex();
 
 const useStyles = makeStyles((theme) => ({
   messagesListWrapper: {
@@ -53,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   messagesList: {
-    backgroundImage: theme.mode === 'light' ? `url(${whatsBackground})` : `url(${whatsBackgroundDark})`, //DARK MODE PLW DESIGN//
+    backgroundImage: theme.mode === 'light' ? `url(${whatsBackground})` : `url(${whatsBackgroundDark})`, //DARK MODE//
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
@@ -106,7 +104,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 5,
     paddingBottom: 0,
     boxShadow: "0 1px 1px #b3b3b3",
-    transition: 'background-color 0.5s ease-in-out',
   },
 
   quotedContainerLeft: {
@@ -116,7 +113,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "7.5px",
     display: "flex",
     position: "relative",
-    cursor: "pointer",
   },
 
   quotedMsg: {
@@ -346,7 +342,6 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(false);
   const lastMessageRef = useRef();
-  const scrollRef = useRef();
 
   const [selectedMessage, setSelectedMessage] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -357,15 +352,21 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
   const { setReplyingMessage } = useContext(ReplyMessageContext);
   const { showSelectMessageCheckbox } = useContext(ForwardMessageContext);
 
-  function loadData(incrementPage = false) {
+  useEffect(() => {
+    dispatch({ type: "RESET" });
+    setPageNumber(1);
+
+    currentTicketId.current = ticketId;
+  }, [ticketId]);
+
+  useEffect(() => {
     setLoading(true);
-    const thisPageNumber = incrementPage ? pageNumber + 1 : 1;
     const delayDebounceFn = setTimeout(() => {
       const fetchMessages = async () => {
         if (ticketId === undefined) return;
         try {
           const { data } = await api.get("/messages/" + ticketId, {
-            params: { pageNumber: thisPageNumber },
+            params: { pageNumber },
           });
 
           if (currentTicketId.current === ticketId) {
@@ -383,24 +384,11 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
         }
       };
       fetchMessages();
-      setPageNumber(thisPageNumber);
     }, 500);
     return () => {
       clearTimeout(delayDebounceFn);
     };
-  }
-
-
-  useEffect(async () => {
-    dispatch({ type: "RESET" });
-
-    currentTicketId.current = ticketId;
-    
-    await loadPageMutex.runExclusive(async () => {
-      loadData();
-    });
-  }, [ticketId]);
-
+  }, [pageNumber, ticketId]);
 
   useEffect(() => {
     const companyId = localStorage.getItem("companyId");
@@ -424,10 +412,8 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
     };
   }, [ticketId, ticket, socketManager]);
 
-  const loadMore = async () => {
-    await loadPageMutex.runExclusive(async () => {
-      loadData(true);
-    });
+  const loadMore = () => {
+    setPageNumber((prevPageNumber) => prevPageNumber + 1);
   };
 
   const scrollToBottom = () => {
@@ -469,7 +455,7 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
     setAnchorEl(null);
   };
 
- const checkMessageMedia = (message) => {
+  const checkMessageMedia = (message) => {
     console.log(message)
     if (message.mediaType === "locationMessage" && message.body.split('|').length >= 2) {
       let locationParts = message.body.split('|')
@@ -657,7 +643,6 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
   };
 
   const renderQuotedMessage = (message) => {
-    
     return (
       <div
         className={clsx(classes.quotedContainerLeft, {
@@ -816,11 +801,7 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
                 {(message.mediaUrl || message.mediaType === "locationMessage" || message.mediaType === "vcard" || message.mediaType === "contactMessage"
                   //|| message.mediaType === "multi_vcard" 
                 ) && checkMessageMedia(message)}
-                <div
-                className={clsx(classes.textContentItem, {
-                  [classes.textContentItemDeleted]: message.isDeleted,
-                })}
-              >
+                <div className={classes.textContentItem}>
                   {message.quotedMsg && renderQuotedMessage(message)}
                   {message.mediaType !== "reactionMessage" && (
                     <MarkdownWrapper>
@@ -867,10 +848,10 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
 							  </>
 							)}
 
-                   <span className={classes.timestamp}>
-                  {message.isEdited ? "Editada " + format(parseISO(message.createdAt), "HH:mm") : format(parseISO(message.createdAt), "HH:mm")}
-                    </span>
-
+                                  
+                  <span className={classes.timestamp}>
+                    {format(parseISO(message.createdAt), "HH:mm")}
+                  </span>
                 </div>
               </div>
             </React.Fragment>
@@ -967,9 +948,9 @@ const MessagesList = ({ ticket, ticketId, isGroup }) => {
 					)}
                           
                   <span className={classes.timestamp}>
-                  {message.isEdited ? "Editada " + format(parseISO(message.createdAt), "HH:mm") : format(parseISO(message.createdAt), "HH:mm")}
-                  {renderMessageAck(message)}
-                </span>
+                    {format(parseISO(message.createdAt), "HH:mm")}
+                    {renderMessageAck(message)}
+                  </span>
                 </div>
               </div>
             </React.Fragment>
