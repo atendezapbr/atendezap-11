@@ -34,6 +34,7 @@ Informações Importantes:
 Apenas Suporte Básico
 
 📅 15/04/2025 – Versão 6.0.0 - Disponivel em Breve!!!
+Assim que o código estiver disponivel.
 
 📅 13/12/2024 – Versão 5.5.0
 
