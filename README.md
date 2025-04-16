@@ -33,8 +33,23 @@ https://www.netcup.com/en/?ref=257888
 Informações Importantes:
 Apenas Suporte Básico
 
-📅 15/04/2025 – Versão 6.0.0 - Disponivel em Breve!!!
-Assim que o código estiver disponivel.
+📅 16/04/2025 – Versão 6.0.0 - Disponivel Hoje Ainda!!!!
+
+🌑 Correções no Darkmode (dentro das mensagens)</br>
+🔄 Botão Light/Dark movido (está no perfil)</br>
+📊 Estilos dos cards da Dashboard alterados (removido botão de impressão)</br>
+🎟️ Estilo de ticket alterado</br>
+⚡ Respostas rápidas (layout novo)</br>
+📂 Correção no envio de menu (filas) – na 3ª tentativa de não escolha da fila, é enviado automaticamente para a 1ª fila</br>
+🌍 Botão de tradução</br>
+⚠️ Aviso de contato (caso o ticket esteja aberto, é emitido um aviso)</br>
+🔧 Página de conexão reformulada</br>
+👑 Adicionada opção de SuperAdmin (dentro do popup do usuário)</br>
+📆 Correção no agendamento (agora envia imagem com texto)</br>
+♻️ Agendamento reformulado (com suporte a ciclos)</br> 
+🔐 Novo layout da tela de login</br>
+📝 Novo layout da tela de signup</br>
+🛠️ Correção de vazamento no WebSocket</br>
 
 📅 13/12/2024 – Versão 5.5.0
 
