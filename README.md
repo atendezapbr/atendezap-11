@@ -1,7 +1,3 @@
-⚠️🚨🛑🔔 = Identificamos alguns problemas com a versão 6.0.0
-
-Continue na versão 5.5.0
-
 # WhaTicket Versão Saas com Módulo Kanban, Modo Noturno e as seguintes integrações:</br>
 
 Baseado no Whaticket Gold da PLW Designer
