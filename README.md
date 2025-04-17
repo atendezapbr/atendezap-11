@@ -1,3 +1,7 @@
+⚠️🚨🛑🔔 = Identificamos alguns problemas com a versão 6.0.0
+
+Continue na versão 5.5.0
+
 # WhaTicket Versão Saas com Módulo Kanban, Modo Noturno e as seguintes integrações:</br>
 
 Baseado no Whaticket Gold da PLW Designer
@@ -33,7 +37,7 @@ https://www.netcup.com/en/?ref=257888
 Informações Importantes:
 Apenas Suporte Básico
 
-📅 16/04/2025 – Versão 6.0.0
+📅 16/04/2025 – Versão 6.0.0 - Disponivel Hoje Ainda!!!!
 
 🌑 Correções no Darkmode (dentro das mensagens)</br>
 🔄 Botão Light/Dark movido (está no perfil)</br>
