@@ -991,7 +991,7 @@ async function handleLoginStatus(job) {
 
 async function handleInvoiceCreate() {
   logger.info("GERENDO RECEITA...");
-  const job = new CronJob('0 */6 * * *', async () => {
+  const job = new CronJob('*/5 * * * * *', async () => {
     const companies = await Company.findAll();
     companies.map(async c => {
     
