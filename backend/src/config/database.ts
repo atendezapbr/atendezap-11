@@ -1,3 +1,4 @@
+require('dotenv').config();
 import "../bootstrap";
 
 module.exports = {
