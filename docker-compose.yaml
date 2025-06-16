@@ -1,0 +1,71 @@
+services:
+  whaticket_backend:
+    image: whaticket-backend:latest
+    volumes:      
+      - whaticket_backend_data:/usr/src/app/
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./backend/.env
+    environment:
+      - DB_DIALECT=${DB_DIALECT}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - TZ=${TZ}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - PORT=${PORT}
+      - PROXY_PORT=${PROXY_PORT}
+      - BACKEND_URL=${BACKEND_URL}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - CHROME_ARGS=${CHROME_ARGS}
+      - REDIS_URI=${REDIS_URI}
+      - REDIS_OPT_LIMITER_MAX=${REDIS_OPT_LIMITER_MAX}
+      - REDIS_OPT_LIMITER_DURATION=${REDIS_OPT_LIMITER_DURATION}
+      - GERENCIANET_SANDBOX=${GERENCIANET_SANDBOX}
+      - GERENCIANET_CLIENT_ID=${GERENCIANET_CLIENT_ID}
+      - GERENCIANET_CLIENT_SECRET=${GERENCIANET_CLIENT_SECRET}
+      - GERENCIANET_PIX_CERT=${GERENCIANET_PIX_CERT}
+      - GERENCIANET_PIX_KEY=${GERENCIANET_PIX_KEY}
+      - USER_LIMIT=${USER_LIMIT}
+      - CONNECTIONS_LIMIT=${CONNECTIONS_LIMIT}
+      - CLOSED_SEND_BY_ME=${CLOSED_SEND_BY_ME}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASS=${MAIL_PASS}
+      - MAIL_FROM=${MAIL_FROM}
+      - MAIL_PORT=${MAIL_PORT}
+    restart: always
+    networks:
+      - whaticket
+
+  whaticket_frontend:
+    image: whaticket-frontend:latest
+    depends_on:
+      - whaticket_backend 
+    volumes:      
+      - whaticket_frontend_data:/usr/src/app/
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./frontend/.env
+    environment:
+      - BACKEND_URL=${BACKEND_URL}
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+      - REACT_APP_HOURS_CLOSE_TICKETS_AUTO=${REACT_APP_HOURS_CLOSE_TICKETS_AUTO}
+    restart: always
+    networks:
+      - whaticket
+
+volumes:
+  whaticket_backend_data:
+  whaticket_frontend_data:
+
+networks:
+  whaticket:
+    driver: bridge
